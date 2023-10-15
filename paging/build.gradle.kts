@@ -91,7 +91,11 @@ kotlin {
             }
         }
         val nativeTest by creating
-        val jvmTest by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation("app.cash.turbine:turbine:1.0.0")
+            }
+        }
         val androidUnitTest by getting
         val jsTest by getting
         val iosTest by creating
