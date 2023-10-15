@@ -1,0 +1,5 @@
+.gradle
+.idea
+build
+paging/build
+local.properties
