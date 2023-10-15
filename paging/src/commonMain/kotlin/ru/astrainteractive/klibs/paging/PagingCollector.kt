@@ -16,5 +16,4 @@ interface PagingCollector<T, K : Any> {
      * Load next page if last page not reached
      */
     suspend fun loadNextPage()
-
 }

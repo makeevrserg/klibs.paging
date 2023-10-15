@@ -2,7 +2,6 @@ package ru.astrainteractive.klibs.paging.data
 
 import ru.astrainteractive.klibs.paging.state.PagingState
 
-
 /**
  * This will allows you to use lambda data source
  */
