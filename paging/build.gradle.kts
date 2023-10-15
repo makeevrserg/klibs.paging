@@ -6,7 +6,10 @@ plugins {
 }
 kotlin {
     jvm()
-    androidTarget()
+    androidTarget {
+        publishLibraryVariants("release", "debug")
+        publishLibraryVariantsGroupedByFlavor = true
+    }
     js(IR) {
         browser()
         nodejs()

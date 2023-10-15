@@ -5,6 +5,7 @@ data class LambdaPagingState<T : Any>(
     override val isLastPage: Boolean,
     override val isLoading: Boolean,
     override val isFailure: Boolean,
+    override val pageSizeAtLeast: Int,
     private val getNextPage: LambdaPagingState<T>.() -> T
 ) : PagingState<T> {
     override fun createNextPageDescriptor(): T {

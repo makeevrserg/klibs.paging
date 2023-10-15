@@ -10,6 +10,8 @@ interface PagingState<T : Any> {
 
     val pageDescriptor: T
 
+    val pageSizeAtLeast: Int
+
     val isLastPage: Boolean
 
     val isLoading: Boolean
