@@ -20,6 +20,10 @@ class DefaultPagingCollector<T, K : Any>(
         pagingStateFlow.value = initialPagingState
     }
 
+    override fun submitList(list: List<T>) {
+        listStateFlow.value = list
+    }
+
     override suspend fun loadNextPage() {
         if (pagingStateFlow.value.isLastPage) return
         if (pagingStateFlow.value.isLoading) return

@@ -113,4 +113,25 @@ class PagingCollectorTest {
                 assertTrue(awaitItem().isEmpty())
             }
     }
+
+    @Test
+    fun `Test update list`(): Unit = runBlocking {
+        val intPagingCollector = IntPagerCollector(
+            pager = LambdaPagedListDataSource {
+                runCatching { emptyList<Int>() }
+            }
+        )
+        intPagingCollector.listStateFlow
+            .test {
+                assertTrue(awaitItem().isEmpty())
+                listOf(1, 2, 3).let { newList ->
+                    intPagingCollector.submitList(newList)
+                    assertContentEquals(awaitItem(), newList)
+                }
+                emptyList<Int>().let { newList ->
+                    intPagingCollector.submitList(newList)
+                    assertContentEquals(awaitItem(), newList)
+                }
+            }
+    }
 }
