@@ -29,14 +29,14 @@ class DefaultPagingCollector<T, K : Any>(
         if (pagingStateFlow.value.isLoading) return
 
         pagingStateFlow.update { pagingState ->
-            pagingState.copyPagingState(isLoading = true)
+            pagingState.copy(isLoading = true)
         }
 
         val result = pager.getListResult(pagingStateFlow.value)
 
         result.onFailure {
             pagingStateFlow.update { pagingState ->
-                pagingState.copyPagingState(isFailure = true)
+                pagingState.copy(isFailure = true)
             }
         }
 
@@ -44,14 +44,14 @@ class DefaultPagingCollector<T, K : Any>(
             when {
                 newList.isEmpty() -> {
                     pagingStateFlow.update { pagingState ->
-                        pagingState.copyPagingState(isLastPage = true)
+                        pagingState.copy(isLastPage = true)
                     }
                 }
 
                 newList.isNotEmpty() -> {
                     pagingStateFlow.update { pagingState ->
-                        pagingState.copyPagingState(
-                            pageDescriptor = pagingStateFlow.value.createNextPageDescriptor(),
+                        pagingState.copy(
+                            pageDescriptor = pagingState.pageDescriptor.next(),
                             isLastPage = newList.size < pagingState.pageSizeAtLeast
                         )
                     }
@@ -63,7 +63,7 @@ class DefaultPagingCollector<T, K : Any>(
         }
 
         pagingStateFlow.update { pagingState ->
-            pagingState.copyPagingState(isLoading = false)
+            pagingState.copy(isLoading = false)
         }
     }
 }

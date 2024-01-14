@@ -23,46 +23,57 @@ klibs-paging = "<latest-version>"
 klibs-paging = { module = "ru.astrainteractive.klibs:paging", version.ref = "klibs-paging" }
 ```
 
-### Define your own PagingState
+### Define your own PageDescriptor
+
+PageDescriptor is the description of your current page. It can be int, string, anything.
+Most users describe page as Integer value, so here's example:
 
 ```kotlin
-data class LongPagingState(
-    override var pageDescriptor: Int,
-    override var isLastPage: Boolean = false,
-    override val isLoading: Boolean = false,
-    override val isFailure: Boolean = false
-) : PagingState<Long> {
-    override fun createNextPageDescriptor(): Int {
-        return pageDescriptor + 1
+data class LongPageDescriptor(val page: Long) : PageDescriptor<Long> {
+    override fun next(): PageDescriptor<Long> {
+        return copy(page = page + 1)
     }
+}
+```
 
-    override fun copyPagingState(
-        pageDescriptor: Int,
-        isLastPage: Boolean,
-        isLoading: Boolean,
-        isFailure: Boolean
-    ): PagingState<Int> {
-        return this.copy(
-            pageDescriptor = pageDescriptor,
-            isLastPage = isLastPage,
-            isLoading = isLoading,
-            isFailure = isFailure
-        )
+### Create PagedDataSource
+
+Mostly you will use LambdaPagedListDataSource, but it also can be created with PagedListDataSource interface
+
+```kotlin
+// With interface
+class BytesPagedListDataSource : PagedListDataSource<Byte, Long> {
+    override suspend fun getListResult(pagingState: PagingState<Long>): Result<List<Byte>> {
+        return runCatching { listOf(0.toByte()) }
     }
+}
+// Or lambda
+val bytesPagedListDataSource = LambdaPagedListDataSource<Byte, Long> {
+    runCatching { listOf(0.toByte()) }
 }
 ```
 
 ### Define your own paging collector
 
+For custom PagingDescriptor you need to create PagerCollector. It can be made with delegation
+
 ```kotlin
 
 class LongPagerCollector<T>(
-    private val initialPage: Long = 0,
-    private val pager: PagedListDataSource<T, Int>,
-) : PagingCollector<T, Int> by DefaultPagingCollector(
-    initialPagingState = LongPagingState(pageDescriptor = initialPage),
+    private val initialPage: Long = 0L,
+    private val pageSize: Int = 10,
+    private val pager: PagedListDataSource<T, Long>,
+) : PagingCollector<T, Long> by DefaultPagingCollector(
+    initialPagingState = PagingState(
+        pageDescriptor = LongPageDescriptor(page = initialPage),
+        pageSizeAtLeast = pageSize,
+        isLastPage = false,
+        isLoading = false,
+        isFailure = false
+    ),
     pager = pager
 )
+
 ```
 
 ### Simple repository example
