@@ -29,9 +29,9 @@ PageDescriptor is the description of your current page. It can be int, string, a
 Most users describe page as Integer value, so here's example:
 
 ```kotlin
-data class LongPageDescriptor(val page: Long) : PageDescriptor<Long> {
+data class LongPageDescriptor(override val value: Long) : PageDescriptor<Long> {
     override fun next(): PageDescriptor<Long> {
-        return copy(page = page + 1)
+        return copy(value = value + 1)
     }
 }
 ```
@@ -58,14 +58,13 @@ val bytesPagedListDataSource = LambdaPagedListDataSource<Byte, Long> {
 For custom PagingDescriptor you need to create PagerCollector. It can be made with delegation
 
 ```kotlin
-
 class LongPagerCollector<T>(
     private val initialPage: Long = 0L,
     private val pageSize: Int = 10,
     private val pager: PagedListDataSource<T, Long>,
 ) : PagingCollector<T, Long> by DefaultPagingCollector(
     initialPagingState = PagingState(
-        pageDescriptor = LongPageDescriptor(page = initialPage),
+        pageDescriptor = LongPageDescriptor(value = initialPage),
         pageSizeAtLeast = pageSize,
         isLastPage = false,
         isLoading = false,
@@ -73,7 +72,6 @@ class LongPagerCollector<T>(
     ),
     pager = pager
 )
-
 ```
 
 ### Simple repository example
@@ -86,25 +84,27 @@ class MyRepositoryImpl : MyRepository {
     /**
      * Define your paging collector
      */
-    private val pagingCollector = IntPagerCollector(
+    private val pagingCollector = LongPagerCollector(
         initialPage = 0,
         pager = LambdaPagedListDataSource { pagingState ->
-            val page = pagingState.pageDescriptor
-            val pageSize = 10
             runCatching {
-                if (Random.nextBoolean()) List(pageSize) { i ->
-                    "Value number ${pageSize * page} + $i"
-                }
-                else error("Some error")
-
+                loadPage(
+                    page = pagingState.pageDescriptor.value,
+                    pageSize = pagingState.pageSizeAtLeast
+                )
             }
         }
     )
 
+    private suspend fun loadPage(page: Long, pageSize: Int): List<String> {
+        return if (Random.nextBoolean()) List(pageSize) { i -> "Value number ${pageSize * page} + $i" }
+        else error("Some error")
+    }
+
     /**
      * Define stateflow of your pager
      */
-    override val pagingStateFlow: StateFlow<PagingState<Int>> = pagingCollector.pagingStateFlow
+    override val pagingStateFlow: StateFlow<PagingState<Long>> = pagingCollector.pagingStateFlow
 
     /**
      * Define list state flow of your pager
