@@ -10,7 +10,7 @@ class IntPagerCollector<T>(
     private val pager: PagedListDataSource<T, Int>,
 ) : PagingCollector<T, Int> by DefaultPagingCollector(
     initialPagingState = PagingState(
-        pageDescriptor = IntPageDescriptor(page = initialPage),
+        pageDescriptor = IntPageDescriptor(value = initialPage),
         pageSizeAtLeast = pageSize,
         isLastPage = false,
         isLoading = false,

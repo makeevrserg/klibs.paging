@@ -1,7 +1,13 @@
 package ru.astrainteractive.klibs.paging.descriptor
 
-data class IntPageDescriptor(val page: Int) : PageDescriptor<Int> {
+/**
+ * This is default implementation for Integer
+ */
+data class IntPageDescriptor(override val value: Int) : PageDescriptor<Int> {
+    /**
+     * When next called we will simply increment page number
+     */
     override fun next(): PageDescriptor<Int> {
-        return copy(page = page + 1)
+        return copy(value = value + 1)
     }
 }
