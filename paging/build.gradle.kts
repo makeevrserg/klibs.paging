@@ -88,14 +88,12 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(libs.test.turbine)
+                implementation(libs.kotlin.coroutines.test)
             }
         }
         val nativeTest by creating
-        val jvmTest by getting {
-            dependencies {
-                implementation("app.cash.turbine:turbine:1.0.0")
-            }
-        }
+        val jvmTest by getting
         val androidUnitTest by getting
         val jsTest by getting
         val iosTest by creating

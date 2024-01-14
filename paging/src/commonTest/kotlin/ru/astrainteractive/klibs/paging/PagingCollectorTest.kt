@@ -3,17 +3,18 @@ package ru.astrainteractive.klibs.paging
 import app.cash.turbine.test
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import ru.astrainteractive.klibs.paging.data.LambdaPagedListDataSource
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress("TestFunctionName")
 class PagingCollectorTest {
 
     @Test
-    fun `Test last page when empty list`(): Unit = runBlocking {
+    fun WHEN_empty_result_THEN_last_page() = runTest {
         val intPagingCollector = IntPagerCollector(
             pager = LambdaPagedListDataSource {
                 runCatching { emptyList<String>() }
@@ -28,7 +29,7 @@ class PagingCollectorTest {
     }
 
     @Test
-    fun `Test failure`(): Unit = runBlocking {
+    fun WHEN_failure_result_THEN_failure_state() = runTest {
         val intPagingCollector = IntPagerCollector(
             pager = LambdaPagedListDataSource<Int, Int> {
                 runCatching { error("Some error") }
@@ -43,7 +44,7 @@ class PagingCollectorTest {
     }
 
     @Test
-    fun `Test reset`(): Unit = runBlocking {
+    fun WHEN_reset_called_THEN_reset_complete() = runTest {
         val intPagingCollector = IntPagerCollector(
             pager = LambdaPagedListDataSource<Int, Int> {
                 runCatching { listOf() }
@@ -60,7 +61,7 @@ class PagingCollectorTest {
     }
 
     @Test
-    fun `Test not last page`(): Unit = runBlocking {
+    fun WHEN_has_more_to_load_THEN_not_last_page() = runTest {
         val intPagingCollector = IntPagerCollector(
             pageSize = 2,
             pager = LambdaPagedListDataSource {
@@ -76,7 +77,7 @@ class PagingCollectorTest {
     }
 
     @Test
-    fun `Test loading`(): Unit = runBlocking {
+    fun WHEN_start_loading_THEN_loading() = runTest {
         val intPagingCollector = IntPagerCollector(
             pageSize = 2,
             pager = LambdaPagedListDataSource {
@@ -95,7 +96,7 @@ class PagingCollectorTest {
     }
 
     @Test
-    fun `Test return list`(): Unit = runBlocking {
+    fun GIVEN_filled_list_WHEN_collecting_THEN_return_given_list() = runTest {
         val size = 10
         val list = List(size) { it }
         val intPagingCollector = IntPagerCollector(
@@ -115,7 +116,7 @@ class PagingCollectorTest {
     }
 
     @Test
-    fun `Test update list`(): Unit = runBlocking {
+    fun GIVEN_empty_list_WHEN_updating_to_filled_list_THEN_returns_filled_list() = runTest {
         val intPagingCollector = IntPagerCollector(
             pager = LambdaPagedListDataSource {
                 runCatching { emptyList<Int>() }
