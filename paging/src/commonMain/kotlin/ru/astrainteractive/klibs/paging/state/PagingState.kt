@@ -8,8 +8,8 @@ import ru.astrainteractive.klibs.paging.context.PageContext
  *
  * @see PageContext
  */
-data class PagingState<T : Any>(
-    val pageContext: PageContext<T>,
+data class PagingState<T : PageContext>(
+    val pageContext: T,
     val pageSizeAtLeast: Int,
     val isLastPage: Boolean,
     val isLoading: Boolean,

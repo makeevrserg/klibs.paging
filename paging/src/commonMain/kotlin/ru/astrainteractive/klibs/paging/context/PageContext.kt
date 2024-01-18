@@ -5,16 +5,13 @@ package ru.astrainteractive.klibs.paging.context
  *
  * It can be anything, but mostly page described as number, [Int] for example
  */
-interface PageContext<T : Any> {
+interface PageContext {
     /**
-     * Context value
+     * Factory is required to generate next or previous page context
      *
-     * In case when it's [IntPageContext] it will be page number
+     * @see IntPageContext.Factory
      */
-    val value: T
-
-    /**
-     * Create next [PageContext]
-     */
-    fun next(): PageContext<T>
+    interface Factory<T : PageContext> {
+        fun next(pageContext: T): T
+    }
 }

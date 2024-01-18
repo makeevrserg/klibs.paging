@@ -2,12 +2,14 @@ package ru.astrainteractive.klibs.paging
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import ru.astrainteractive.klibs.paging.context.PageContext
 import ru.astrainteractive.klibs.paging.data.PagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
 
-class DefaultPagingCollector<T, K : Any>(
+class DefaultPagingCollector<T, K : PageContext>(
     private val initialPagingState: PagingState<K>,
     private val pager: PagedListDataSource<T, K>,
+    private val pageContextFactory: PageContext.Factory<K>
 ) : PagingCollector<T, K> {
     override val pagingStateFlow: MutableStateFlow<PagingState<K>> = MutableStateFlow(initialPagingState)
     override val listStateFlow = MutableStateFlow<List<T>>(emptyList())
@@ -22,6 +24,12 @@ class DefaultPagingCollector<T, K : Any>(
 
     override fun submitList(list: List<T>) {
         listStateFlow.value = list
+    }
+
+    override fun updatePageContext(pageContext: K) {
+        pagingStateFlow.update { pagingState ->
+            pagingState.copy(pageContext = pageContext)
+        }
     }
 
     override suspend fun loadNextPage() {
@@ -51,7 +59,7 @@ class DefaultPagingCollector<T, K : Any>(
                 newList.isNotEmpty() -> {
                     pagingStateFlow.update { pagingState ->
                         pagingState.copy(
-                            pageContext = pagingState.pageContext.next(),
+                            pageContext = pageContextFactory.next(pagingState.pageContext),
                             isLastPage = newList.size < pagingState.pageSizeAtLeast
                         )
                     }

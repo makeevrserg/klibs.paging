@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
+import ru.astrainteractive.klibs.paging.context.IntPageContext
 import ru.astrainteractive.klibs.paging.data.LambdaPagedListDataSource
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -31,7 +32,7 @@ class PagingCollectorTest {
     @Test
     fun WHEN_failure_result_THEN_failure_state() = runTest {
         val intPagingCollector = IntPagerCollector(
-            pager = LambdaPagedListDataSource<Int, Int> {
+            pager = LambdaPagedListDataSource<Int, IntPageContext> {
                 runCatching { error("Some error") }
             }
         )
@@ -46,7 +47,7 @@ class PagingCollectorTest {
     @Test
     fun WHEN_reset_called_THEN_reset_complete() = runTest {
         val intPagingCollector = IntPagerCollector(
-            pager = LambdaPagedListDataSource<Int, Int> {
+            pager = LambdaPagedListDataSource<Int, IntPageContext> {
                 runCatching { listOf() }
             }
         )

@@ -3,6 +3,9 @@ import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("ru.astrainteractive.gradleplugin.publication")
+    id("ru.astrainteractive.gradleplugin.dokka.module")
+    id("ru.astrainteractive.gradleplugin.stub.javadoc")
 }
 kotlin {
     jvm()
