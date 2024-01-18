@@ -25,13 +25,17 @@ klibs-paging = { module = "ru.astrainteractive.klibs:paging", version.ref = "kli
 
 ### Define your own PageContext
 
-PageContext is the description of your current page. It can be int, string, anything.
+PageContext is the description of your current page. It can contain int, string, anything.
 Most users describe page as Integer value, so here's example:
 
+Factory here is used to create next or previous page context
+
 ```kotlin
-data class LongPageContext(override val value: Long) : PageContext<Long> {
-    override fun next(): PageContext<Long> {
-        return copy(value = value + 1)
+data class LongPageContext(val page: Long) : PageContext {
+    object Factory : PageContext.Factory<LongPageContext> {
+        override fun next(pageContext: LongPageContext): LongPageContext {
+            return pageContext.copy(page = pageContext.page + 1)
+        }
     }
 }
 ```
@@ -42,35 +46,37 @@ Mostly you will use LambdaPagedListDataSource, but it also can be created with P
 
 ```kotlin
 // With interface
-class BytesPagedListDataSource : PagedListDataSource<Byte, Long> {
-    override suspend fun getListResult(pagingState: PagingState<Long>): Result<List<Byte>> {
+class BytesPagedListDataSource : PagedListDataSource<Byte, LongPageContext> {
+    override suspend fun getListResult(pagingState: PagingState<LongPageContext>): Result<List<Byte>> {
         return runCatching { listOf(0.toByte()) }
     }
 }
+
 // Or lambda
-val bytesPagedListDataSource = LambdaPagedListDataSource<Byte, Long> {
+val bytesPagedListDataSource = LambdaPagedListDataSource<Byte, LongPageContext> {
     runCatching { listOf(0.toByte()) }
 }
 ```
 
 ### Define your own paging collector
 
-For custom PagingDescriptor you need to create PagerCollector. It can be made with delegation
+For custom PageContext you need to create PagerCollector. It can be made with delegation
 
 ```kotlin
 class LongPagerCollector<T>(
     private val initialPage: Long = 0L,
     private val pageSize: Int = 10,
-    private val pager: PagedListDataSource<T, Long>,
-) : PagingCollector<T, Long> by DefaultPagingCollector(
+    private val pager: PagedListDataSource<T, LongPageContext>,
+) : PagingCollector<T, LongPageContext> by DefaultPagingCollector(
     initialPagingState = PagingState(
-        pageContext = LongPageContext(value = initialPage),
+        pageContext = LongPageContext(page = initialPage),
         pageSizeAtLeast = pageSize,
         isLastPage = false,
         isLoading = false,
         isFailure = false
     ),
-    pager = pager
+    pager = pager,
+    pageContextFactory = LongPageContext.Factory
 )
 ```
 
@@ -104,7 +110,7 @@ class MyRepositoryImpl : MyRepository {
     /**
      * Define stateflow of your pager
      */
-    override val pagingStateFlow: StateFlow<PagingState<Long>> = pagingCollector.pagingStateFlow
+    override val pagingStateFlow: StateFlow<PagingState<LongPageContext>> = pagingCollector.pagingStateFlow
 
     /**
      * Define list state flow of your pager
