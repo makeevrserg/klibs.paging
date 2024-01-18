@@ -23,14 +23,14 @@ klibs-paging = "<latest-version>"
 klibs-paging = { module = "ru.astrainteractive.klibs:paging", version.ref = "klibs-paging" }
 ```
 
-### Define your own PageDescriptor
+### Define your own PageContext
 
-PageDescriptor is the description of your current page. It can be int, string, anything.
+PageContext is the description of your current page. It can be int, string, anything.
 Most users describe page as Integer value, so here's example:
 
 ```kotlin
-data class LongPageDescriptor(override val value: Long) : PageDescriptor<Long> {
-    override fun next(): PageDescriptor<Long> {
+data class LongPageContext(override val value: Long) : PageContext<Long> {
+    override fun next(): PageContext<Long> {
         return copy(value = value + 1)
     }
 }
@@ -64,7 +64,7 @@ class LongPagerCollector<T>(
     private val pager: PagedListDataSource<T, Long>,
 ) : PagingCollector<T, Long> by DefaultPagingCollector(
     initialPagingState = PagingState(
-        pageDescriptor = LongPageDescriptor(value = initialPage),
+        pageContext = LongPageContext(value = initialPage),
         pageSizeAtLeast = pageSize,
         isLastPage = false,
         isLoading = false,
@@ -89,7 +89,7 @@ class MyRepositoryImpl : MyRepository {
         pager = LambdaPagedListDataSource { pagingState ->
             runCatching {
                 loadPage(
-                    page = pagingState.pageDescriptor.value,
+                    page = pagingState.pageContext.value,
                     pageSize = pagingState.pageSizeAtLeast
                 )
             }

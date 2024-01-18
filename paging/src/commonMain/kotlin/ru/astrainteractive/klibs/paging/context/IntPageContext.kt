@@ -1,13 +1,13 @@
-package ru.astrainteractive.klibs.paging.descriptor
+package ru.astrainteractive.klibs.paging.context
 
 /**
  * This is default implementation for Integer
  */
-data class IntPageDescriptor(override val value: Int) : PageDescriptor<Int> {
+data class IntPageContext(override val value: Int) : PageContext<Int> {
     /**
      * When next called we will simply increment page number
      */
-    override fun next(): PageDescriptor<Int> {
+    override fun next(): PageContext<Int> {
         return copy(value = value + 1)
     }
 }

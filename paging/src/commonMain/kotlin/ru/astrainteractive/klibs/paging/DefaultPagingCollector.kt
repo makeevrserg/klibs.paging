@@ -51,7 +51,7 @@ class DefaultPagingCollector<T, K : Any>(
                 newList.isNotEmpty() -> {
                     pagingStateFlow.update { pagingState ->
                         pagingState.copy(
-                            pageDescriptor = pagingState.pageDescriptor.next(),
+                            pageContext = pagingState.pageContext.next(),
                             isLastPage = newList.size < pagingState.pageSizeAtLeast
                         )
                     }
