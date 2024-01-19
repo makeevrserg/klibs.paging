@@ -11,6 +11,7 @@ Gradle
 
 ```kotlin
 implementation("ru.astrainteractive.klibs:paging:<version>")
+implementation(libs.klibs.paging)
 ```
 
 Version catalogs
@@ -22,6 +23,14 @@ klibs-paging = "<latest-version>"
 [libraries]
 klibs-paging = { module = "ru.astrainteractive.klibs:paging", version.ref = "klibs-paging" }
 ```
+
+## Sample
+
+For sample see [Sample directory](./sample)
+
+It contains ComposeJB RickMortyApi paging implementation with filtering
+
+## Usage
 
 ### Define your own PageContext
 

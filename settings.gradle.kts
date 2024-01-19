@@ -20,3 +20,4 @@ rootProject.name = "Paging"
 
 // Subprojects
 include(":paging")
+include(":sample")
