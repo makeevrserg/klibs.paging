@@ -2,8 +2,11 @@ package ru.astrainteractive.klibs.paging
 
 import app.cash.turbine.test
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
+import ru.astrainteractive.klibs.paging.PagingCollectorExt.submitList
+import ru.astrainteractive.klibs.paging.context.IntPageContext
 import ru.astrainteractive.klibs.paging.data.LambdaPagedListDataSource
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -21,7 +24,7 @@ class PagingCollectorTest {
             }
         )
         intPagingCollector.loadNextPage()
-        intPagingCollector.pagingStateFlow.value.let { pagingState ->
+        intPagingCollector.state.value.let { pagingState ->
             assertTrue(pagingState.isLastPage)
             assertFalse(pagingState.isFailure)
             assertFalse(pagingState.isLoading)
@@ -31,12 +34,12 @@ class PagingCollectorTest {
     @Test
     fun WHEN_failure_result_THEN_failure_state() = runTest {
         val intPagingCollector = IntPagerCollector(
-            pager = LambdaPagedListDataSource<Int, Int> {
+            pager = LambdaPagedListDataSource<Int, IntPageContext> {
                 runCatching { error("Some error") }
             }
         )
         intPagingCollector.loadNextPage()
-        intPagingCollector.pagingStateFlow.value.let { pagingState ->
+        intPagingCollector.state.value.let { pagingState ->
             assertTrue(pagingState.isFailure)
             assertFalse(pagingState.isLastPage)
             assertFalse(pagingState.isLoading)
@@ -46,14 +49,14 @@ class PagingCollectorTest {
     @Test
     fun WHEN_reset_called_THEN_reset_complete() = runTest {
         val intPagingCollector = IntPagerCollector(
-            pager = LambdaPagedListDataSource<Int, Int> {
+            pager = LambdaPagedListDataSource<Int, IntPageContext> {
                 runCatching { listOf() }
             }
         )
         intPagingCollector.loadNextPage()
-        assertTrue(intPagingCollector.pagingStateFlow.value.isLastPage)
+        assertTrue(intPagingCollector.state.value.isLastPage)
         intPagingCollector.reset()
-        intPagingCollector.pagingStateFlow.value.let { pagingState ->
+        intPagingCollector.state.value.let { pagingState ->
             assertFalse(pagingState.isFailure)
             assertFalse(pagingState.isLastPage)
             assertFalse(pagingState.isLoading)
@@ -69,7 +72,7 @@ class PagingCollectorTest {
             }
         )
         intPagingCollector.loadNextPage()
-        intPagingCollector.pagingStateFlow.value.let { pagingState ->
+        intPagingCollector.state.value.let { pagingState ->
             assertFalse(pagingState.isFailure)
             assertFalse(pagingState.isLastPage)
             assertFalse(pagingState.isLoading)
@@ -84,7 +87,7 @@ class PagingCollectorTest {
                 runCatching { List(2) { it } }
             }
         )
-        intPagingCollector.pagingStateFlow
+        intPagingCollector.state
             .map { it.isLoading }
             .distinctUntilChanged()
             .test {
@@ -105,7 +108,9 @@ class PagingCollectorTest {
                 runCatching { list }
             }
         )
-        intPagingCollector.listStateFlow
+        intPagingCollector.state
+            .distinctUntilChangedBy { it.items }
+            .map { it.items }
             .test {
                 assertTrue(awaitItem().isEmpty())
                 intPagingCollector.loadNextPage()
@@ -122,7 +127,8 @@ class PagingCollectorTest {
                 runCatching { emptyList<Int>() }
             }
         )
-        intPagingCollector.listStateFlow
+        intPagingCollector.state
+            .map { it.items }
             .test {
                 assertTrue(awaitItem().isEmpty())
                 listOf(1, 2, 3).let { newList ->
