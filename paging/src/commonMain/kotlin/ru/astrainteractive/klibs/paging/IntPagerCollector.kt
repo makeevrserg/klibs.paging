@@ -11,6 +11,7 @@ class IntPagerCollector<T>(
 ) : PagingCollector<T, IntPageContext> by DefaultPagingCollector(
     initialPagingState = PagingState(
         pageContext = IntPageContext(page = initialPage),
+        items = emptyList<T>(),
         pageSizeAtLeast = pageSize,
         isLastPage = false,
         isLoading = false,

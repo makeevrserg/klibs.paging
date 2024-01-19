@@ -7,42 +7,36 @@ import ru.astrainteractive.klibs.paging.data.PagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
 
 class DefaultPagingCollector<T, K : PageContext>(
-    private val initialPagingState: PagingState<K>,
+    private val initialPagingState: PagingState<T, K>,
     private val pager: PagedListDataSource<T, K>,
     private val pageContextFactory: PageContext.Factory<K>
 ) : PagingCollector<T, K> {
-    override val pagingStateFlow: MutableStateFlow<PagingState<K>> = MutableStateFlow(initialPagingState)
-    override val listStateFlow = MutableStateFlow<List<T>>(emptyList())
+    override val state: MutableStateFlow<PagingState<T, K>> = MutableStateFlow(initialPagingState)
 
     /**
-     * Reset will return [pagingStateFlow] to [initialPagingState] and clear [listStateFlow] content
+     * Reset will return [state] to [initialPagingState] and clear [listStateFlow] content
      */
     override fun reset() {
-        listStateFlow.value = emptyList()
-        pagingStateFlow.value = initialPagingState
+        update { initialPagingState }
     }
 
-    override fun update(pagingState: (PagingState<K>) -> PagingState<K>) {
-        val nextPagingState = pagingState.invoke(pagingStateFlow.value)
-        pagingStateFlow.value = nextPagingState
-    }
-
-    override fun submitList(list: List<T>) {
-        listStateFlow.value = list
+    override fun update(pagingState: (PagingState<T, K>) -> PagingState<T, K>) {
+        val nextPagingState = pagingState.invoke(state.value)
+        state.value = nextPagingState
     }
 
     override suspend fun loadNextPage() {
-        if (pagingStateFlow.value.isLastPage) return
-        if (pagingStateFlow.value.isLoading) return
+        if (state.value.isLastPage) return
+        if (state.value.isLoading) return
 
-        pagingStateFlow.update { pagingState ->
+        state.update { pagingState ->
             pagingState.copy(isLoading = true)
         }
 
-        val result = pager.getListResult(pagingStateFlow.value)
+        val result = pager.getListResult(state.value)
 
         result.onFailure {
-            pagingStateFlow.update { pagingState ->
+            state.update { pagingState ->
                 pagingState.copy(isFailure = true)
             }
         }
@@ -50,26 +44,24 @@ class DefaultPagingCollector<T, K : PageContext>(
         result.onSuccess { newList ->
             when {
                 newList.isEmpty() -> {
-                    pagingStateFlow.update { pagingState ->
+                    state.update { pagingState ->
                         pagingState.copy(isLastPage = true)
                     }
                 }
 
                 newList.isNotEmpty() -> {
-                    pagingStateFlow.update { pagingState ->
+                    state.update { pagingState ->
                         pagingState.copy(
                             pageContext = pageContextFactory.next(pagingState.pageContext),
-                            isLastPage = newList.size < pagingState.pageSizeAtLeast
+                            isLastPage = newList.size < pagingState.pageSizeAtLeast,
+                            items = pagingState.items + newList
                         )
-                    }
-                    listStateFlow.update { currentList ->
-                        currentList + newList
                     }
                 }
             }
         }
 
-        pagingStateFlow.update { pagingState ->
+        state.update { pagingState ->
             pagingState.copy(isLoading = false)
         }
     }

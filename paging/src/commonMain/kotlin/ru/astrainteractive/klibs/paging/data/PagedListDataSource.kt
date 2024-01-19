@@ -7,5 +7,5 @@ import ru.astrainteractive.klibs.paging.state.PagingState
  * Default paged list interface
  */
 interface PagedListDataSource<T, K : PageContext> {
-    suspend fun getListResult(pagingState: PagingState<K>): Result<List<T>>
+    suspend fun getListResult(pagingState: PagingState<T, K>): Result<List<T>>
 }

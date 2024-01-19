@@ -4,12 +4,13 @@ import ru.astrainteractive.klibs.paging.context.PageContext
 
 /**
  * Core paging state
- * [T] is the type of page - can be int; string whatever
+ * [K] is the type of page - can be int; string whatever
  *
  * @see PageContext
  */
-data class PagingState<T : PageContext>(
-    val pageContext: T,
+data class PagingState<T, K : PageContext>(
+    val pageContext: K,
+    val items: List<T>,
     val pageSizeAtLeast: Int,
     val isLastPage: Boolean,
     val isLoading: Boolean,

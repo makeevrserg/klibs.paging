@@ -5,20 +5,17 @@ import ru.astrainteractive.klibs.paging.context.PageContext
 import ru.astrainteractive.klibs.paging.state.PagingState
 
 interface PagingCollector<T, K : PageContext> {
-    val pagingStateFlow: StateFlow<PagingState<K>>
-    val listStateFlow: StateFlow<List<T>>
+    val state: StateFlow<PagingState<T, K>>
 
     /**
-     * Reset [pagingStateFlow] and clear [listStateFlow]
+     * Reset [state] [PagingState] to initial value
      */
     fun reset()
 
-    fun update(pagingState: (PagingState<K>) -> PagingState<K>)
-
     /**
-     * Update current [listStateFlow]
+     * Update current [state]
      */
-    fun submitList(list: List<T>)
+    fun update(pagingState: (PagingState<T, K>) -> PagingState<T, K>)
 
     /**
      * Load next page if last page not reached

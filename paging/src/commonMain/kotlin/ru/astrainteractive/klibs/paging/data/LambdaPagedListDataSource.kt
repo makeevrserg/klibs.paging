@@ -7,9 +7,9 @@ import ru.astrainteractive.klibs.paging.state.PagingState
  * This will allows you to use lambda data source
  */
 class LambdaPagedListDataSource<T, K : PageContext>(
-    private val loadPageLambda: suspend (PagingState<K>) -> Result<List<T>>
+    private val loadPageLambda: suspend (PagingState<T, K>) -> Result<List<T>>
 ) : PagedListDataSource<T, K> {
-    override suspend fun getListResult(pagingState: PagingState<K>): Result<List<T>> {
+    override suspend fun getListResult(pagingState: PagingState<T, K>): Result<List<T>> {
         return loadPageLambda(pagingState)
     }
 }
