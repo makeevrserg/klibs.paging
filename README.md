@@ -5,6 +5,12 @@
 
 klibs.Paging is kotlin-only lightweight paging library
 
+See also other klibs libraries
+
+- [kdi](https://github.com/makeevrserg/klibs.kdi)
+- [kstorage](https://github.com/makeevrserg/klibs.kstorage)
+- [mikro](https://github.com/makeevrserg/klibs.mikro)
+
 ## Installation
 
 Gradle
