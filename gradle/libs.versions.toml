@@ -7,9 +7,15 @@ gradle-android = "7.4.2"
 [libraries]
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines-core" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines-core" }
+kotlin-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines-core" }
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.strictly = "1.6.2" }
 test-turbine = { module = "app.cash.turbine:turbine", version.strictly = "1.0.0" }
 makeevrserg-gradleplugin-convention = { module = "ru.astrainteractive.gradleplugin:convention", version.ref = "makeevrserg-gradleplugin" }
 makeevrserg-gradleplugin-android = { module = "ru.astrainteractive.gradleplugin:android", version.ref = "makeevrserg-gradleplugin" }
+compose-imageloader = { module = "io.github.qdsfdhvh:image-loader", version.strictly = "1.7.1" }
+ktor-core = { module = "io.ktor:ktor-client-core", version.strictly = "2.3.7" }
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin-version" }
 gradle-android = { id = "com.android.library", version.ref = "gradle-android" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-version" }
+compose = { id = "org.jetbrains.compose", version.strictly = "1.5.11" }
