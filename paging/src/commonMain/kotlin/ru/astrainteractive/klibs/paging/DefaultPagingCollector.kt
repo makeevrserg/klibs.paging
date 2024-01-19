@@ -22,14 +22,13 @@ class DefaultPagingCollector<T, K : PageContext>(
         pagingStateFlow.value = initialPagingState
     }
 
-    override fun submitList(list: List<T>) {
-        listStateFlow.value = list
+    override fun update(pagingState: (PagingState<K>) -> PagingState<K>) {
+        val nextPagingState = pagingState.invoke(pagingStateFlow.value)
+        pagingStateFlow.value = nextPagingState
     }
 
-    override fun updatePageContext(pageContext: K) {
-        pagingStateFlow.update { pagingState ->
-            pagingState.copy(pageContext = pageContext)
-        }
+    override fun submitList(list: List<T>) {
+        listStateFlow.value = list
     }
 
     override suspend fun loadNextPage() {

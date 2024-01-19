@@ -13,15 +13,12 @@ interface PagingCollector<T, K : PageContext> {
      */
     fun reset()
 
+    fun update(pagingState: (PagingState<K>) -> PagingState<K>)
+
     /**
      * Update current [listStateFlow]
      */
     fun submitList(list: List<T>)
-
-    /**
-     * Force update page context
-     */
-    fun updatePageContext(pageContext: K)
 
     /**
      * Load next page if last page not reached
