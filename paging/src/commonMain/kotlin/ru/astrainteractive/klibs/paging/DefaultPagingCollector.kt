@@ -6,6 +6,9 @@ import ru.astrainteractive.klibs.paging.context.PageContext
 import ru.astrainteractive.klibs.paging.data.PagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
 
+/**
+ * This is a default implementation to be delegated from, but you can create your own
+ */
 class DefaultPagingCollector<T, K : PageContext>(
     private val initialPagingState: PagingState<T, K>,
     private val pager: PagedListDataSource<T, K>,
@@ -13,9 +16,6 @@ class DefaultPagingCollector<T, K : PageContext>(
 ) : PagingCollector<T, K> {
     override val state: MutableStateFlow<PagingState<T, K>> = MutableStateFlow(initialPagingState)
 
-    /**
-     * Reset will return [state] to [initialPagingState] and clear [listStateFlow] content
-     */
     override fun reset() {
         update { initialPagingState }
     }

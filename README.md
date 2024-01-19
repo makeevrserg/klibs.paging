@@ -47,7 +47,7 @@ Mostly you will use LambdaPagedListDataSource, but it also can be created with P
 ```kotlin
 // With interface
 class BytesPagedListDataSource : PagedListDataSource<Byte, LongPageContext> {
-    override suspend fun getListResult(pagingState: PagingState<LongPageContext>): Result<List<Byte>> {
+    override suspend fun getListResult(pagingState: PagingState<Byte, LongPageContext>): Result<List<Byte>> {
         return runCatching { listOf(0.toByte()) }
     }
 }
@@ -70,6 +70,7 @@ class LongPagerCollector<T>(
 ) : PagingCollector<T, LongPageContext> by DefaultPagingCollector(
     initialPagingState = PagingState(
         pageContext = LongPageContext(page = initialPage),
+        items = emptyList(),
         pageSizeAtLeast = pageSize,
         isLastPage = false,
         isLoading = false,
@@ -95,7 +96,7 @@ class MyRepositoryImpl : MyRepository {
         pager = LambdaPagedListDataSource { pagingState ->
             runCatching {
                 loadPage(
-                    page = pagingState.pageContext.value,
+                    page = pagingState.pageContext.page,
                     pageSize = pagingState.pageSizeAtLeast
                 )
             }
@@ -110,12 +111,7 @@ class MyRepositoryImpl : MyRepository {
     /**
      * Define stateflow of your pager
      */
-    override val pagingStateFlow: StateFlow<PagingState<LongPageContext>> = pagingCollector.pagingStateFlow
-
-    /**
-     * Define list state flow of your pager
-     */
-    override val pagingItems: StateFlow<List<String>> = pagingCollector.listStateFlow
+    override val pagingState: StateFlow<PagingState<Byte, LongPageContext>> = pagingCollector.state
 
     /**
      * Add ability to reset it

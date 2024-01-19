@@ -3,7 +3,9 @@ package ru.astrainteractive.klibs.paging.context
 /**
  * [PageContext] is the description of your current page.
  *
- * It can be anything, but mostly page described as number, [Int] for example
+ * It can be anything, but mostly page described as number, [Int] - number of page for example
+ *
+ * @see IntPageContext
  */
 interface PageContext {
     /**

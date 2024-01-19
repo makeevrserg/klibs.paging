@@ -4,6 +4,9 @@ import ru.astrainteractive.klibs.paging.context.IntPageContext
 import ru.astrainteractive.klibs.paging.data.PagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
 
+/**
+ * This is a default implementation for Integer page. You can define your own by delegation just like that
+ */
 class IntPagerCollector<T>(
     private val initialPage: Int = 0,
     private val pageSize: Int = 10,

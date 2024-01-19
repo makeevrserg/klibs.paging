@@ -2,6 +2,9 @@ package ru.astrainteractive.klibs.paging
 
 import ru.astrainteractive.klibs.paging.context.PageContext
 
+/**
+ * Some useful extensions for [IntPagerCollector]
+ */
 object PagingCollectorExt {
 
     /**
