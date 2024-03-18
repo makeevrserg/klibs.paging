@@ -55,7 +55,7 @@ class PagingCollectorTest {
         )
         intPagingCollector.loadNextPage()
         assertTrue(intPagingCollector.state.value.isLastPage)
-        intPagingCollector.reset()
+        intPagingCollector.resetAndJoin()
         intPagingCollector.state.value.let { pagingState ->
             assertFalse(pagingState.isFailure)
             assertFalse(pagingState.isLastPage)
@@ -115,7 +115,7 @@ class PagingCollectorTest {
                 assertTrue(awaitItem().isEmpty())
                 intPagingCollector.loadNextPage()
                 assertContentEquals(awaitItem(), list)
-                intPagingCollector.reset()
+                intPagingCollector.resetAndJoin()
                 assertTrue(awaitItem().isEmpty())
             }
     }

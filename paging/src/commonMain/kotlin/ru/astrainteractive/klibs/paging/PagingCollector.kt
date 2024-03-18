@@ -14,9 +14,14 @@ interface PagingCollector<T, K : PageContext> {
     val state: StateFlow<PagingState<T, K>>
 
     /**
-     * Reset [state] to initial value
+     * Reset [state] to initial value and perform [cancelAndJoin]
      */
-    fun reset()
+    suspend fun resetAndJoin()
+
+    /**
+     * Cancels current [loadNextPage] job
+     */
+    suspend fun cancelAndJoin()
 
     /**
      * Update current [state]

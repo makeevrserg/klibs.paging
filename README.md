@@ -36,6 +36,10 @@ For sample see [Sample directory](./sample)
 
 It contains ComposeJB RickMortyApi paging implementation with filtering
 
+## Issues with usage
+
+If you have issues with usage of this library - take a look into sources. Almost everything documented and designed to be easy to understand
+
 ## Usage
 
 ### Define your own PageContext
@@ -83,14 +87,16 @@ class LongPagerCollector<T>(
     private val pageSize: Int = 10,
     private val pager: PagedListDataSource<T, LongPageContext>,
 ) : PagingCollector<T, LongPageContext> by DefaultPagingCollector(
-    initialPagingState = PagingState(
-        pageContext = LongPageContext(page = initialPage),
-        items = emptyList(),
-        pageSizeAtLeast = pageSize,
-        isLastPage = false,
-        isLoading = false,
-        isFailure = false
-    ),
+    initialPagingStateFactory = {
+        PagingState(
+            pageContext = LongPageContext(page = initialPage),
+            items = emptyList(),
+            pageSizeAtLeast = pageSize,
+            isLastPage = false,
+            isLoading = false,
+            isFailure = false
+        )
+    },
     pager = pager,
     pageContextFactory = LongPageContext.Factory
 )
@@ -108,31 +114,24 @@ class MyRepositoryImpl : MyRepository {
      */
     private val pagingCollector = LongPagerCollector(
         initialPage = 0,
-        pager = LambdaPagedListDataSource { pagingState ->
-            runCatching {
-                loadPage(
-                    page = pagingState.pageContext.page,
-                    pageSize = pagingState.pageSizeAtLeast
-                )
-            }
+        pager = CoroutineHandledPagedListDataSource<String, LongPageContext> { pagingState ->
+            val page = pagingState.pageContext.page
+            val pageSize = pagingState.pageSizeAtLeast
+            if (Random.nextBoolean()) List(pagingState.pageContext.page.toInt()) { i -> "Value number ${pageSize * page} + $i" }
+            else error("Some error")
         }
     )
-
-    private suspend fun loadPage(page: Long, pageSize: Int): List<String> {
-        return if (Random.nextBoolean()) List(pageSize) { i -> "Value number ${pageSize * page} + $i" }
-        else error("Some error")
-    }
 
     /**
      * Define stateflow of your pager
      */
-    override val pagingState: StateFlow<PagingState<Byte, LongPageContext>> = pagingCollector.state
+    override val pagingState: StateFlow<PagingState<String, LongPageContext>> = pagingCollector.state
 
     /**
      * Add ability to reset it
      */
     override suspend fun reset() {
-        pagingCollector.reset()
+        pagingCollector.resetAndJoin()
     }
 
     /**

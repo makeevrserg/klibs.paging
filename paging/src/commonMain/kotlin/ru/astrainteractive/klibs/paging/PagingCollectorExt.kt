@@ -30,4 +30,9 @@ object PagingCollectorExt {
     fun <T, K : PageContext> PagingCollector<T, K>.submitList(list: List<T>) {
         update { it.copy(items = list) }
     }
+
+    suspend fun <T, K : PageContext> PagingCollector<T, K>.resetAndLoadNextPage() {
+        resetAndJoin()
+        loadNextPage()
+    }
 }
