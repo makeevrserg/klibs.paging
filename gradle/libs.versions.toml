@@ -2,12 +2,12 @@
 # Kotlin
 kotlin-version = "2.0.0" # # https://github.com/JetBrains/kotlin
 kotlin-coroutines-core = "1.8.1" # https://github.com/Kotlin/kotlinx.coroutines
-kotlin-serialization = "1.6.2"
+kotlin-serialization = "1.6.3"
 klibs-gradleplugin = "1.2.0" # https://github.com/makeevrserg/gradle-plugin
 gradle-android = "8.4.1" # https://developer.android.com/build#top-level
 test-turbine = "1.1.0" # https://github.com/cashapp/turbine
-compose-imageloader = "1.7.8"
-ktor = "2.3.7"
+compose-imageloader = "1.8.1"
+ktor = "2.3.11"
 kotlin-compose = "1.6.10"
 [libraries]
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines-core" }
