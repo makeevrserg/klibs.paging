@@ -1,21 +1,41 @@
 [versions]
 # Kotlin
-kotlin-version = "1.9.0"
-kotlin-coroutines-core = "1.7.2"
-makeevrserg-gradleplugin = "0.5.1"
-gradle-android = "7.4.2"
+kotlin-version = "2.0.0" # # https://github.com/JetBrains/kotlin
+kotlin-coroutines-core = "1.8.1" # https://github.com/Kotlin/kotlinx.coroutines
+kotlin-serialization = "1.6.2"
+klibs-gradleplugin = "1.2.0" # https://github.com/makeevrserg/gradle-plugin
+gradle-android = "8.4.1" # https://developer.android.com/build#top-level
+test-turbine = "1.1.0" # https://github.com/cashapp/turbine
+compose-imageloader = "1.7.8"
+ktor = "2.3.7"
+kotlin-compose = "1.6.10"
 [libraries]
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines-core" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines-core" }
 kotlin-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines-core" }
-kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.strictly = "1.6.2" }
-test-turbine = { module = "app.cash.turbine:turbine", version.strictly = "1.0.0" }
-makeevrserg-gradleplugin-convention = { module = "ru.astrainteractive.gradleplugin:convention", version.ref = "makeevrserg-gradleplugin" }
-makeevrserg-gradleplugin-android = { module = "ru.astrainteractive.gradleplugin:android", version.ref = "makeevrserg-gradleplugin" }
-compose-imageloader = { module = "io.github.qdsfdhvh:image-loader", version.strictly = "1.7.1" }
-ktor-core = { module = "io.ktor:ktor-client-core", version.strictly = "2.3.7" }
+test-turbine = { module = "app.cash.turbine:turbine", version.ref = "test-turbine" }
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
+compose-imageloader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "compose-imageloader" }
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin-version" }
 gradle-android = { id = "com.android.library", version.ref = "gradle-android" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-version" }
-compose = { id = "org.jetbrains.compose", version.strictly = "1.5.11" }
+kotlin-compose = { id = "org.jetbrains.compose", version.ref = "kotlin-compose" }
+kotlin-compose-gradle = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-version" }
+# klibs - core
+klibs-gradle-detekt = { id = "ru.astrainteractive.gradleplugin.detekt", version.ref = "klibs-gradleplugin" }
+klibs-gradle-detekt-compose = { id = "ru.astrainteractive.gradleplugin.detekt.compose", version.ref = "klibs-gradleplugin" }
+klibs-gradle-dokka-root = { id = "ru.astrainteractive.gradleplugin.dokka.root", version.ref = "klibs-gradleplugin" }
+klibs-gradle-dokka-module = { id = "ru.astrainteractive.gradleplugin.dokka.module", version.ref = "klibs-gradleplugin" }
+klibs-gradle-java-core = { id = "ru.astrainteractive.gradleplugin.java.core", version.ref = "klibs-gradleplugin" }
+klibs-gradle-stub-javadoc = { id = "ru.astrainteractive.gradleplugin.stub.javadoc", version.ref = "klibs-gradleplugin" }
+klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication", version.ref = "klibs-gradleplugin" }
+klibs-gradle-publication-signing = { id = "ru.astrainteractive.gradleplugin.publication.kmp-signing", version.ref = "klibs-gradleplugin" }
+klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.root.info", version.ref = "klibs-gradleplugin" }
+# klibs - android
+klibs-gradle-android-core = { id = "ru.astrainteractive.gradleplugin.android.core", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-compose = { id = "ru.astrainteractive.gradleplugin.android.compose", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-apk-sign = { id = "ru.astrainteractive.gradleplugin.android.apk.sign", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-apk-name = { id = "ru.astrainteractive.gradleplugin.android.apk.name", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-publication = { id = "ru.astrainteractive.gradleplugin.android.publication", version.ref = "klibs-gradleplugin" }

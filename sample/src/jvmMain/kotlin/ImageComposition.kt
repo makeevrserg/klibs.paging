@@ -17,7 +17,7 @@ private fun generateImageLoader(): ImageLoader {
             // cache 100 success image result, without bitmap
             defaultImageResultMemoryCache()
             memoryCacheConfig {
-                maxSizeBytes(32 * 1024 * 1024) // 32MB
+                maxSize(32 * 1024 * 1024) // 32MB
             }
             diskCacheConfig {
                 directory(File.createTempFile("prefix", "postfix").parentFile.resolve("image_cache").toOkioPath())

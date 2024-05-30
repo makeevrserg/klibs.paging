@@ -1,11 +1,12 @@
 @file:Suppress("UnusedPrivateMember")
 
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import ru.astrainteractive.gradleplugin.util.ProjectProperties.projectInfo
+import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.compose.gradle)
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -46,7 +47,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "${projectInfo.group}.sample"
+            packageName = "${requireProjectInfo.group}.sample"
             packageVersion = "1.0.0"
         }
     }
