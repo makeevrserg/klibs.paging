@@ -11,5 +11,9 @@ internal data class RickMortyPageContext(
         override fun next(pageContext: RickMortyPageContext): RickMortyPageContext {
             return pageContext.copy(page = pageContext.page + 1)
         }
+
+        override fun prev(pageContext: RickMortyPageContext): RickMortyPageContext {
+            return pageContext.copy(page = pageContext.page - 1)
+        }
     }
 }

@@ -20,9 +20,6 @@ internal class FeatureViewModel(private val rickMortyRepository: RickMortyReposi
             Model(
                 characters = pagingState.items,
                 filter = pagingState.pageContext.filter,
-                isLastPage = pagingState.isLastPage,
-                isLoading = pagingState.isLoading,
-                isError = pagingState.isFailure
             )
         }
     ).stateIn(this, SharingStarted.Eagerly, Model())

@@ -1,17 +1,40 @@
 [![version](https://img.shields.io/maven-central/v/ru.astrainteractive.klibs/paging?style=flat-square)](https://github.com/makeevrserg/klibs.paging)
-[![kotlin_version](https://img.shields.io/badge/kotlin-1.9.0-blueviolet?style=flat-square)](https://github.com/makeevrserg/klibs.paging)
 
-## Paging
+### 📦 What is it?
 
-klibs.Paging is kotlin-only lightweight paging library
+`klibs.paging` — lightweight Kotlin-only library simplifies pagination in your Kotlin Multiplatform projects. Whether
+you're building for Android, iOS, JVM, or JS, `klibs.paging` provides a clean and efficient way to handle paginated
+data.
 
-See also other klibs libraries
+### 🚀 Features
 
-- [kdi](https://github.com/makeevrserg/klibs.kdi)
-- [kstorage](https://github.com/makeevrserg/klibs.kstorage)
-- [mikro](https://github.com/makeevrserg/klibs.mikro)
+- **Multiplatform Support:** Works seamlessly across Android, iOS, JVM, and JS.
+- **Lightweight:** Minimal dependencies and a small footprint.
+- **Easy Integration:** Simple setup with Gradle.
+- **Flexible API:** Supports both manual and automatic pagination strategies.
 
-## Installation
+### 🧪 Sample Usage
+
+For a practical example, check out the sample directory in the repository. It demonstrates how to implement pagination
+in a Kotlin Multiplatform project.
+
+### 🧩 Core Concepts
+
+- **PagingSource<Key, Value>** — defines how to load pages of data from your source (API, DB, etc).
+- **Pager** — coordinates paging, calls your PagingSource to load pages as needed.
+- **PagingState** — tracks loaded pages and current position.
+- **LoadResult** — success or failure result of a page load.
+- **Page** — a chunk of loaded data with info about previous and next keys.
+
+### 🎯 Use Cases
+
+- Loading infinite scroll lists from paginated REST APIs.
+- Paging database query results.
+- Any scenario where loading entire data set at once is inefficient or impossible.
+
+### 🚀 Getting Started
+
+#### Installation
 
 Gradle
 
@@ -30,116 +53,58 @@ klibs-paging = "<latest-version>"
 klibs-paging = { module = "ru.astrainteractive.klibs:paging", version.ref = "klibs-paging" }
 ```
 
-## Sample
-
-For sample see [Sample directory](./sample)
-
-It contains ComposeJB RickMortyApi paging implementation with filtering
-
-## Issues with usage
-
-If you have issues with usage of this library - take a look into sources. Almost everything documented and designed to be easy to understand
-
-## Usage
-
-### Define your own PageContext
-
-PageContext is the description of your current page. It can contain int, string, anything.
-Most users describe page as Integer value, so here's example:
-
-Factory here is used to create next or previous page context
+#### Define your Paging Context
 
 ```kotlin
-data class LongPageContext(val page: Long) : PageContext {
-    object Factory : PageContext.Factory<LongPageContext> {
-        override fun next(pageContext: LongPageContext): LongPageContext {
+data class IntPageContext(val page: Int) : PageContext {
+    object Factory : PageContext.Factory<IntPageContext> {
+
+        override fun next(pageContext: IntPageContext): IntPageContext {
             return pageContext.copy(page = pageContext.page + 1)
+        }
+
+        override fun prev(pageContext: IntPageContext): IntPageContext {
+            return pageContext.copy(page = pageContext.page - 1)
         }
     }
 }
+
 ```
 
-### Create PagedDataSource
-
-Mostly you will use LambdaPagedListDataSource, but it also can be created with PagedListDataSource interface
+#### Defina a Collector
 
 ```kotlin
-// With interface
-class BytesPagedListDataSource : PagedListDataSource<Byte, LongPageContext> {
-    override suspend fun getListResult(pagingState: PagingState<Byte, LongPageContext>): Result<List<Byte>> {
-        return runCatching { listOf(0.toByte()) }
-    }
-}
-
-// Or lambda
-val bytesPagedListDataSource = LambdaPagedListDataSource<Byte, LongPageContext> {
-    runCatching { listOf(0.toByte()) }
-}
-```
-
-### Define your own paging collector
-
-For custom PageContext you need to create PagerCollector. It can be made with delegation
-
-```kotlin
-class LongPagerCollector<T>(
-    private val initialPage: Long = 0L,
-    private val pageSize: Int = 10,
-    private val pager: PagedListDataSource<T, LongPageContext>,
-) : PagingCollector<T, LongPageContext> by DefaultPagingCollector(
+class IntPagerCollector<T>(
+    private val initialPage: Int = 0,
+    private val pager: PagedListDataSource<T, IntPageContext>,
+) : PagingCollector<T, IntPageContext> by DefaultPagingCollector(
     initialPagingStateFactory = {
         PagingState(
-            pageContext = LongPageContext(page = initialPage),
+            pageContext = IntPageContext(page = initialPage),
             items = emptyList(),
-            pageSizeAtLeast = pageSize,
-            isLastPage = false,
-            isLoading = false,
-            isFailure = false
+            pageResult = PageResult.Pending
         )
     },
     pager = pager,
-    pageContextFactory = LongPageContext.Factory
+    pageContextFactory = IntPageContext.Factory
 )
 ```
 
-### Simple repository example
+#### Collect Pages!
 
 ```kotlin
-/**
- * Your custom repository implementation
- */
-class MyRepositoryImpl : MyRepository {
-    /**
-     * Define your paging collector
-     */
-    private val pagingCollector = LongPagerCollector(
-        initialPage = 0,
-        pager = CoroutineHandledPagedListDataSource<String, LongPageContext> { pagingState ->
-            val page = pagingState.pageContext.page
-            val pageSize = pagingState.pageSizeAtLeast
-            if (Random.nextBoolean()) List(pagingState.pageContext.page.toInt()) { i -> "Value number ${pageSize * page} + $i" }
-            else error("Some error")
+private val pagingCollector = IntPagerCollector(
+    initialPage = 0,
+    pager = {
+        runCatching {
+            listOf("Hello first item!")
         }
-    )
-
-    /**
-     * Define stateflow of your pager
-     */
-    override val pagingState: StateFlow<PagingState<String, LongPageContext>> = pagingCollector.state
-
-    /**
-     * Add ability to reset it
-     */
-    override suspend fun reset() {
-        pagingCollector.resetAndJoin()
     }
+)
 
-    /**
-     * Add ability to load next page
-     */
-    override suspend fun loadNextPage() {
-        pagingCollector.loadNextPage()
-    }
+val state = pagingCollector.pagingState
+
+fun loadItem() {
+    pagingCollector.loadNextPage()
 }
 ```
-

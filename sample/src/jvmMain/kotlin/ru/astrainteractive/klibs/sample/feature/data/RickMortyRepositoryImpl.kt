@@ -1,9 +1,10 @@
 package ru.astrainteractive.klibs.sample.feature.data
 
 import kotlinx.coroutines.flow.StateFlow
-import ru.astrainteractive.klibs.paging.PagingCollectorExt.updatePageContext
-import ru.astrainteractive.klibs.paging.data.LambdaPagedListDataSource
+import ru.astrainteractive.klibs.paging.state.PageResult
 import ru.astrainteractive.klibs.paging.state.PagingState
+import ru.astrainteractive.klibs.paging.util.loadNextPage
+import ru.astrainteractive.klibs.paging.util.updatePageContext
 import ru.astrainteractive.klibs.sample.feature.data.paging.RickMortyPageContext
 import ru.astrainteractive.klibs.sample.feature.data.paging.RickMortyPagerCollector
 import ru.astrainteractive.klibs.sample.feature.service.RickMortyService
@@ -20,11 +21,11 @@ internal class RickMortyRepositoryImpl(
     private val pagingCollector = RickMortyPagerCollector(
         initialPage = 0,
         initialFilter = Filter(),
-        pager = LambdaPagedListDataSource {
+        pager = {
             runCatching {
                 rickMortyService.fetchCharacters(
                     page = it.pageContext.page,
-                    pageSize = it.pageSizeAtLeast,
+                    pageSize = 10,
                     filter = it.pageContext.filter
                 )
             }.onFailure(Throwable::printStackTrace)
@@ -38,9 +39,7 @@ internal class RickMortyRepositoryImpl(
             pagingState.copy(
                 pageContext = pagingState.pageContext.copy(page = 0),
                 items = emptyList(),
-                isLoading = false,
-                isLastPage = false,
-                isFailure = false,
+                pageResult = PageResult.Pending
             )
         }
     }

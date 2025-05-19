@@ -4,3 +4,4 @@
 build
 paging/build
 local.properties
+kotlin-js-store
