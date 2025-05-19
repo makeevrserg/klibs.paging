@@ -15,5 +15,6 @@ interface PageContext {
      */
     interface Factory<T : PageContext> {
         fun next(pageContext: T): T
+        fun prev(pageContext: T): T
     }
 }

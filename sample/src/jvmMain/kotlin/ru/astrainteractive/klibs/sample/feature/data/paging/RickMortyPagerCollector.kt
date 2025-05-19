@@ -1,7 +1,7 @@
 package ru.astrainteractive.klibs.sample.feature.data.paging
 
-import ru.astrainteractive.klibs.paging.DefaultPagingCollector
-import ru.astrainteractive.klibs.paging.PagingCollector
+import ru.astrainteractive.klibs.paging.collector.DefaultPagingCollector
+import ru.astrainteractive.klibs.paging.collector.PagingCollector
 import ru.astrainteractive.klibs.paging.data.PagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
 import ru.astrainteractive.klibs.sample.feature.service.model.Filter

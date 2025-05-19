@@ -1,7 +1,8 @@
-package ru.astrainteractive.klibs.paging
+package ru.astrainteractive.klibs.paging.collector
 
 import ru.astrainteractive.klibs.paging.context.IntPageContext
 import ru.astrainteractive.klibs.paging.data.PagedListDataSource
+import ru.astrainteractive.klibs.paging.state.PageResult
 import ru.astrainteractive.klibs.paging.state.PagingState
 
 /**
@@ -9,17 +10,13 @@ import ru.astrainteractive.klibs.paging.state.PagingState
  */
 class IntPagerCollector<T>(
     private val initialPage: Int = 0,
-    private val pageSize: Int = 10,
     private val pager: PagedListDataSource<T, IntPageContext>,
 ) : PagingCollector<T, IntPageContext> by DefaultPagingCollector(
     initialPagingStateFactory = {
         PagingState(
             pageContext = IntPageContext(page = initialPage),
-            items = emptyList<T>(),
-            pageSizeAtLeast = pageSize,
-            isLastPage = false,
-            isLoading = false,
-            isFailure = false
+            items = emptyList(),
+            pageResult = PageResult.Pending
         )
     },
     pager = pager,

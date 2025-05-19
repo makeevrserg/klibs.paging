@@ -6,6 +6,6 @@ import ru.astrainteractive.klibs.paging.state.PagingState
 /**
  * This interface is required to fetch page items from your service depending on current [PagingState]
  */
-interface PagedListDataSource<T, K : PageContext> {
+fun interface PagedListDataSource<T, K : PageContext> {
     suspend fun getListResult(pagingState: PagingState<T, K>): Result<List<T>>
 }

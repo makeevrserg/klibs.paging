@@ -16,5 +16,9 @@ data class IntPageContext(val page: Int) : PageContext {
         override fun next(pageContext: IntPageContext): IntPageContext {
             return pageContext.copy(page = pageContext.page + 1)
         }
+
+        override fun prev(pageContext: IntPageContext): IntPageContext {
+            return pageContext.copy(page = pageContext.page - 1)
+        }
     }
 }

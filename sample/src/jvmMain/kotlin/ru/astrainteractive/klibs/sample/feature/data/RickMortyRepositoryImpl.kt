@@ -1,9 +1,8 @@
 package ru.astrainteractive.klibs.sample.feature.data
 
 import kotlinx.coroutines.flow.StateFlow
-import ru.astrainteractive.klibs.paging.PagingCollectorExt.updatePageContext
-import ru.astrainteractive.klibs.paging.data.LambdaPagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
+import ru.astrainteractive.klibs.paging.util.PagingCollectorExt.updatePageContext
 import ru.astrainteractive.klibs.sample.feature.data.paging.RickMortyPageContext
 import ru.astrainteractive.klibs.sample.feature.data.paging.RickMortyPagerCollector
 import ru.astrainteractive.klibs.sample.feature.service.RickMortyService

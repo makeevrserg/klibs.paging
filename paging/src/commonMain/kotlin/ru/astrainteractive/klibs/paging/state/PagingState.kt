@@ -11,16 +11,9 @@ import ru.astrainteractive.klibs.paging.context.PageContext
  * @see PageContext
  * @param pageContext Context of current page
  * @param items Retrieved items from your data source
- * @param pageSizeAtLeast Minimum page size for page
- * @param isLastPage as it says
- * @param isLoading as it says
- * @param isFailure as it says
  */
 data class PagingState<T, K : PageContext>(
     val pageContext: K,
     val items: List<T>,
-    val pageSizeAtLeast: Int,
-    val isLastPage: Boolean,
-    val isLoading: Boolean,
-    val isFailure: Boolean
+    val pageResult: PageResult
 )

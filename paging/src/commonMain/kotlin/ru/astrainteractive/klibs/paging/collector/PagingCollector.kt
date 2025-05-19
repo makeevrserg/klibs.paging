@@ -1,4 +1,4 @@
-package ru.astrainteractive.klibs.paging
+package ru.astrainteractive.klibs.paging.collector
 
 import kotlinx.coroutines.flow.StateFlow
 import ru.astrainteractive.klibs.paging.context.PageContext
@@ -16,7 +16,7 @@ interface PagingCollector<T, K : PageContext> {
     /**
      * Reset [state] to initial value and perform [cancelAndJoin]
      */
-    suspend fun resetAndJoin()
+    suspend fun resetToInitial()
 
     /**
      * Cancels current [loadNextPage] job
@@ -31,5 +31,5 @@ interface PagingCollector<T, K : PageContext> {
     /**
      * Load next page if last page not reached
      */
-    suspend fun loadNextPage()
+    suspend fun loadPage(nextContext: suspend (PageContext.Factory<K>) -> K)
 }
