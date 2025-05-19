@@ -1,16 +1,16 @@
 package ru.astrainteractive.klibs.paging.state
 
-import ru.astrainteractive.klibs.paging.context.IntPageContext
 import ru.astrainteractive.klibs.paging.context.PageContext
 
 /**
- * This is a state of your paging
+ * Represents the complete state of a paginated data flow.
  *
- * [K] is the context of your page - can be [IntPageContext]; string whatever
+ * @param T The type of items being paginated.
+ * @param K The type of [PageContext] representing the current paging position.
  *
- * @see PageContext
- * @param pageContext Context of current page
- * @param items Retrieved items from your data source
+ * @property pageContext The current context of the page, used to determine paging direction.
+ * @property items The list of all loaded items up to this point.
+ * @property pageResult The result of the most recent page loading operation.
  */
 data class PagingState<T, K : PageContext>(
     val pageContext: K,

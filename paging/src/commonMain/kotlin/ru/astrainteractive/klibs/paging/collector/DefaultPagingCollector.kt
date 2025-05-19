@@ -16,7 +16,17 @@ import ru.astrainteractive.klibs.paging.state.PageResult
 import ru.astrainteractive.klibs.paging.state.PagingState
 
 /**
- * This is a default implementation to be delegated from, but you can create your own
+ * Default implementation of [PagingCollector] that manages paging state and orchestrates
+ * loading of data through a [PagedListDataSource].
+ *
+ * This class provides core paging behavior including maintaining state, handling page loading,
+ * and supporting custom pagination strategies via a [PageContext.Factory].
+ *
+ * @param T The type of items being paged.
+ * @param K The type of [PageContext] used to represent paging position.
+ * @param initialPagingStateFactory A factory function that provides the initial [PagingState].
+ * @param pager The data source responsible for loading paged data.
+ * @param pageContextFactory A factory used to generate instances of [PageContext] for pagination.
  */
 class DefaultPagingCollector<T, K : PageContext>(
     private val initialPagingStateFactory: () -> PagingState<T, K>,
