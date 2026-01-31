@@ -1,34 +1,33 @@
 [versions]
 compose-imageloader = "1.10.0"
-gradle-android = "8.13.1"
-klibs-gradleplugin = "1.11.4"
-kotlin-compose = "1.9.3"
+gradle-android = "9.0.0"
+klibs-gradleplugin = "1.14.0"
+kotlin-compose = "1.10.0"
 kotlin-coroutines-core = "1.10.2"
-kotlin-serialization = "1.9.0"
-kotlin-version = "2.2.21"
-ktor = "3.3.3"
+kotlin-serialization = "1.10.0"
+kotlin-version = "2.3.0"
+ktor = "3.4.0"
 test-turbine = "1.2.1"
-
 [libraries]
-compose-imageloader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "compose-imageloader" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines-core" }
 kotlin-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines-core" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines-core" }
-kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
-ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 test-turbine = { module = "app.cash.turbine:turbine", version.ref = "test-turbine" }
-
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
+compose-imageloader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "compose-imageloader" }
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 [plugins]
 gradle-android = { id = "com.android.library", version.ref = "gradle-android" }
 klibs-gradle-android-apk-name = { id = "ru.astrainteractive.gradleplugin.android.apk.name", version.ref = "klibs-gradleplugin" }
 klibs-gradle-android-apk-sign = { id = "ru.astrainteractive.gradleplugin.android.apk.sign", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-namespace = { id = "ru.astrainteractive.gradleplugin.android.namespace", version.ref = "klibs-gradleplugin" }
 klibs-gradle-android-compose = { id = "ru.astrainteractive.gradleplugin.android.compose", version.ref = "klibs-gradleplugin" }
-klibs-gradle-android-core = { id = "ru.astrainteractive.gradleplugin.android.core", version.ref = "klibs-gradleplugin" }
+klibs-gradle-android-sdk = { id = "ru.astrainteractive.gradleplugin.android.sdk", version.ref = "klibs-gradleplugin" }
 klibs-gradle-detekt = { id = "ru.astrainteractive.gradleplugin.detekt", version.ref = "klibs-gradleplugin" }
 klibs-gradle-detekt-compose = { id = "ru.astrainteractive.gradleplugin.detekt.compose", version.ref = "klibs-gradleplugin" }
 klibs-gradle-dokka-module = { id = "ru.astrainteractive.gradleplugin.dokka.module", version.ref = "klibs-gradleplugin" }
 klibs-gradle-dokka-root = { id = "ru.astrainteractive.gradleplugin.dokka.root", version.ref = "klibs-gradleplugin" }
-klibs-gradle-java-core = { id = "ru.astrainteractive.gradleplugin.java.core", version.ref = "klibs-gradleplugin" }
+klibs-gradle-java-version = { id = "ru.astrainteractive.gradleplugin.java.version", version.ref = "klibs-gradleplugin" }
 klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication", version.ref = "klibs-gradleplugin" }
 klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.root.info", version.ref = "klibs-gradleplugin" }
 kotlin-compose = { id = "org.jetbrains.compose", version.ref = "kotlin-compose" }
