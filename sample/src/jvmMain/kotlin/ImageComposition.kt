@@ -8,6 +8,7 @@ import com.seiko.imageloader.defaultImageResultMemoryCache
 import okio.Path.Companion.toOkioPath
 import java.io.File
 
+@Suppress("MagicNumber")
 private fun generateImageLoader(): ImageLoader {
     return ImageLoader {
         components {

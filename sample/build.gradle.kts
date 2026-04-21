@@ -1,7 +1,7 @@
 @file:Suppress("UnusedPrivateMember")
 
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import ru.astrainteractive.gradleplugin.property.extension.ModelPropertyValueExt.requireProjectInfo
+import ru.astrainteractive.gradleplugin.property.util.requireProjectInfo
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
