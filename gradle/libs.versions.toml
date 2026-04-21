@@ -1,12 +1,12 @@
 [versions]
 compose-imageloader = "1.10.0"
-gradle-android = "9.0.0"
-klibs-gradleplugin = "1.14.0"
-kotlin-compose = "1.10.0"
+gradle-android = "9.1.0"
+klibs-gradleplugin = "2.0.0"
+kotlin-compose = "1.10.3"
 kotlin-coroutines-core = "1.10.2"
 kotlin-serialization = "1.10.0"
-kotlin-version = "2.3.0"
-ktor = "3.4.0"
+kotlin-version = "2.3.20"
+ktor = "3.4.2"
 test-turbine = "1.2.1"
 [libraries]
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines-core" }
@@ -24,12 +24,11 @@ klibs-gradle-android-namespace = { id = "ru.astrainteractive.gradleplugin.androi
 klibs-gradle-android-compose = { id = "ru.astrainteractive.gradleplugin.android.compose", version.ref = "klibs-gradleplugin" }
 klibs-gradle-android-sdk = { id = "ru.astrainteractive.gradleplugin.android.sdk", version.ref = "klibs-gradleplugin" }
 klibs-gradle-detekt = { id = "ru.astrainteractive.gradleplugin.detekt", version.ref = "klibs-gradleplugin" }
-klibs-gradle-detekt-compose = { id = "ru.astrainteractive.gradleplugin.detekt.compose", version.ref = "klibs-gradleplugin" }
 klibs-gradle-dokka-module = { id = "ru.astrainteractive.gradleplugin.dokka.module", version.ref = "klibs-gradleplugin" }
 klibs-gradle-dokka-root = { id = "ru.astrainteractive.gradleplugin.dokka.root", version.ref = "klibs-gradleplugin" }
 klibs-gradle-java-version = { id = "ru.astrainteractive.gradleplugin.java.version", version.ref = "klibs-gradleplugin" }
 klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication", version.ref = "klibs-gradleplugin" }
-klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.root.info", version.ref = "klibs-gradleplugin" }
+klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.rootinfo", version.ref = "klibs-gradleplugin" }
 kotlin-compose = { id = "org.jetbrains.compose", version.ref = "kotlin-compose" }
 kotlin-compose-gradle = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-version" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin-version" }

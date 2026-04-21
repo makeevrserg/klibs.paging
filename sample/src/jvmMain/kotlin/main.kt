@@ -9,6 +9,7 @@ import ru.astrainteractive.klibs.sample.feature.presentation.FeatureViewModel
 import ru.astrainteractive.klibs.sample.feature.ui.FeatureApp
 import java.awt.Dimension
 
+@Suppress("MagicNumber")
 fun main() = application {
     Window(
         title = "Multiplatform App",

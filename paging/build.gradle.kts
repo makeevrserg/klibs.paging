@@ -30,7 +30,7 @@ kotlin {
     mingwX64()
 
     sourceSets {
-        /* Main source sets */
+        // Main source sets
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlin.coroutines.core)
