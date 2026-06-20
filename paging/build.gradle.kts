@@ -7,6 +7,8 @@ plugins {
     id("ru.astrainteractive.gradleplugin.android.sdk")
     id("ru.astrainteractive.gradleplugin.publication")
     id("ru.astrainteractive.gradleplugin.android.namespace")
+    id("ru.astrainteractive.gradleplugin.detekt")
+    id("ru.astrainteractive.gradleplugin.rootinfo")
 }
 kotlin {
     jvm()

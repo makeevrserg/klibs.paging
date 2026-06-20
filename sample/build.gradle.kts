@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.compose.gradle)
     alias(libs.plugins.kotlin.serialization)
+    id("ru.astrainteractive.gradleplugin.detekt")
 }
 
 kotlin {
