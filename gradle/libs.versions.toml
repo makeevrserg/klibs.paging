@@ -1,7 +1,7 @@
 [versions]
 compose-imageloader = "1.10.0" # https://github.com/qdsfdhvh/compose-imageloader
-gradle-android = "9.1.1" # https://developer.android.com/build/releases/about-agp
-klibs-gradleplugin = "2.2.1" # https://github.com/makeevrserg/gradle-plugin
+gradle-android = "9.2.1" # https://developer.android.com/build/releases/about-agp
+klibs-gradleplugin = "2.3.0" # https://github.com/makeevrserg/gradle-plugin
 kotlin-compose = "1.11.1" # https://github.com/JetBrains/compose-multiplatform
 kotlin-coroutines-core = "1.11.0" # https://github.com/Kotlin/kotlinx.coroutines
 kotlin-serialization = "1.11.0" # https://github.com/kotlin/kotlinx.serialization
