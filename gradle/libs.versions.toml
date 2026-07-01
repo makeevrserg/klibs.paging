@@ -6,7 +6,7 @@ kotlin-compose = "1.11.1" # https://github.com/JetBrains/compose-multiplatform
 kotlin-coroutines-core = "1.11.0" # https://github.com/Kotlin/kotlinx.coroutines
 kotlin-serialization = "1.11.0" # https://github.com/kotlin/kotlinx.serialization
 kotlin-version = "2.4.0" # https://github.com/jetbrains/kotlin
-ktor = "3.5.0" # https://github.com/ktorio/ktor
+ktor = "3.5.1" # https://github.com/ktorio/ktor
 test-turbine = "1.2.1" # https://github.com/cashapp/turbine
 
 [libraries]
