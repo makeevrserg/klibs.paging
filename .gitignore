@@ -1,7 +1,9 @@
+**/build
+.claude
 .gradle
 .idea
 .kotlin
-build
-paging/build
-local.properties
+AGENTS.md
+CLAUDE.md
 kotlin-js-store
+local.properties
