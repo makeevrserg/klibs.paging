@@ -1,4 +1,4 @@
-package ru.astrainteractive.klibs.paging.collector
+package ru.astrainteractive.klibs.paging.collector.memory
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -10,10 +10,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ru.astrainteractive.klibs.paging.context.PageContext
-import ru.astrainteractive.klibs.paging.data.PagedListDataSource
-import ru.astrainteractive.klibs.paging.state.PageResult
-import ru.astrainteractive.klibs.paging.state.PagingState
+import ru.astrainteractive.klibs.paging.collector.api.PagingCollector
+import ru.astrainteractive.klibs.paging.context.model.PageContext
+import ru.astrainteractive.klibs.paging.data.api.PagedListDataSource
+import ru.astrainteractive.klibs.paging.state.model.PageResult
+import ru.astrainteractive.klibs.paging.state.model.PagingState
 
 /**
  * Default implementation of [PagingCollector] that manages paging state and orchestrates
@@ -28,7 +29,8 @@ import ru.astrainteractive.klibs.paging.state.PagingState
  * @param pager The data source responsible for loading paged data.
  * @param pageContextFactory A factory used to generate instances of [PageContext] for pagination.
  */
-class DefaultPagingCollector<T, K : PageContext>(
+@Suppress("ImplementationVisibility")
+public class DefaultPagingCollector<T, K : PageContext>(
     private val initialPagingStateFactory: () -> PagingState<T, K>,
     private val pager: PagedListDataSource<T, K>,
     private val pageContextFactory: PageContext.Factory<K>
@@ -52,7 +54,7 @@ class DefaultPagingCollector<T, K : PageContext>(
     }
 
     override suspend fun resetToInitial() {
-        state.emit(initialPagingStateFactory.invoke())
+        state.value = initialPagingStateFactory.invoke()
     }
 
     override suspend fun cancelAndJoin() {
@@ -61,7 +63,7 @@ class DefaultPagingCollector<T, K : PageContext>(
     }
 
     override fun update(pagingState: (PagingState<T, K>) -> PagingState<T, K>) {
-        state.update { state -> pagingState.invoke(state) }
+        state.update(pagingState::invoke)
     }
 
     override suspend fun loadPage(nextContext: suspend (PageContext.Factory<K>) -> K) {

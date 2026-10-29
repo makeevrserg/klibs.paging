@@ -1,9 +1,9 @@
-package ru.astrainteractive.klibs.paging.fake
+package ru.astrainteractive.klibs.paging.data.fake
 
 import kotlinx.coroutines.delay
-import ru.astrainteractive.klibs.paging.context.IntPageContext
-import ru.astrainteractive.klibs.paging.data.PagedListDataSource
-import ru.astrainteractive.klibs.paging.state.PagingState
+import ru.astrainteractive.klibs.paging.context.model.IntPageContext
+import ru.astrainteractive.klibs.paging.data.api.PagedListDataSource
+import ru.astrainteractive.klibs.paging.state.model.PagingState
 import kotlin.time.Duration
 
 /**
@@ -35,7 +35,7 @@ class FakePagedListDataSource<T>(
     ): Result<List<T>> {
         delay(latency)
         failure?.let { error -> return Result.failure(error) }
-        val offset = (pagingState.pageContext.page * pageSize).coerceAtLeast(0)
-        return runCatching { items.drop(offset).take(pageSize) }
+        val offset = pagingState.pageContext.page.times(pageSize).coerceAtLeast(0)
+        return Result.success(items.drop(offset).take(pageSize))
     }
 }

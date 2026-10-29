@@ -1,17 +1,18 @@
-package ru.astrainteractive.klibs.paging.context
+package ru.astrainteractive.klibs.paging.context.model
 
 /**
  * A simple [PageContext] implementation that uses an integer-based page index.
  *
  * @property page The index of the current page.
  */
-data class IntPageContext(val page: Int) : PageContext {
+public data class IntPageContext(public val page: Int) : PageContext {
 
     /**
      * Factory for creating the next or previous [IntPageContext] instances by incrementing or
      * decrementing the current page index.
      */
-    object Factory : PageContext.Factory<IntPageContext> {
+    @Suppress("RolelessClassName")
+    public object Factory : PageContext.Factory<IntPageContext> {
 
         /**
          * Returns the [IntPageContext] representing the next page by incrementing the current page index.

@@ -2,6 +2,8 @@
 compose-imageloader = "1.10.0" # https://github.com/qdsfdhvh/compose-imageloader
 gradle-android = "9.4.1" # https://developer.android.com/build/releases/about-agp
 klibs-gradleplugin = "2.7.2" # https://github.com/makeevrserg/gradle-plugin
+klibs-mikro = "1.29.1" # https://github.com/makeevrserg/klibs.mikro
+klibs-rules = "0.7.0" # https://github.com/Astra-Interactive/rules-architecture
 kotlin-compose = "1.12.0" # https://github.com/JetBrains/compose-multiplatform
 kotlin-coroutines-core = "1.11.0" # https://github.com/Kotlin/kotlinx.coroutines
 kotlin-serialization = "1.11.0" # https://github.com/kotlin/kotlinx.serialization
@@ -15,6 +17,7 @@ kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-co
 kotlin-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines-core" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines-core" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
+klibs-mikro-core = { module = "ru.astrainteractive.klibs:mikro-core", version.ref = "klibs-mikro" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 test-turbine = { module = "app.cash.turbine:turbine", version.ref = "test-turbine" }
 
@@ -30,6 +33,7 @@ klibs-gradle-dokka = { id = "ru.astrainteractive.gradleplugin.dokka", version.re
 klibs-gradle-java-version = { id = "ru.astrainteractive.gradleplugin.java.version", version.ref = "klibs-gradleplugin" }
 klibs-gradle-publication = { id = "ru.astrainteractive.gradleplugin.publication", version.ref = "klibs-gradleplugin" }
 klibs-gradle-rootinfo = { id = "ru.astrainteractive.gradleplugin.rootinfo", version.ref = "klibs-gradleplugin" }
+klibs-rules = { id = "ru.astrainteractive.klibs.rules.gradle.linter", version.ref = "klibs-rules" }
 kotlin-compose = { id = "org.jetbrains.compose", version.ref = "kotlin-compose" }
 kotlin-compose-gradle = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-version" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin-version" }

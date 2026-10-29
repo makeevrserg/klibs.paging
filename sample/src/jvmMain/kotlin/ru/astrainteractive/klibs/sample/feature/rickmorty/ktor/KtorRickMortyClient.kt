@@ -7,14 +7,14 @@ import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import ru.astrainteractive.klibs.sample.feature.rickmorty.api.RickMortyClient
-import ru.astrainteractive.klibs.sample.feature.rickmorty.model.CharacterModel
 import ru.astrainteractive.klibs.sample.feature.rickmorty.model.Filter
+import ru.astrainteractive.klibs.sample.feature.rickmorty.model.RickMortyCharacter
 
 internal class KtorRickMortyClient(
     private val httpClient: HttpClient,
     private val json: Json
 ) : RickMortyClient {
-    override suspend fun fetchCharacters(page: Int, pageSize: Int, filter: Filter): List<CharacterModel> {
+    override suspend fun fetchCharacters(page: Int, pageSize: Int, filter: Filter): List<RickMortyCharacter> {
         val stringBody = httpClient.get("https://rickandmortyapi.com/api/character/") {
             parameter("name", filter.name)
             parameter("status", filter.status?.string)

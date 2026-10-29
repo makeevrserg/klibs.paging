@@ -8,7 +8,12 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.compose.gradle)
     alias(libs.plugins.kotlin.serialization)
-    id("ru.astrainteractive.gradleplugin.detekt")
+    alias(libs.plugins.klibs.rules)
+}
+
+linter {
+    unitKind.set("context")
+    rootPackage.set("ru.astrainteractive.klibs.sample")
 }
 
 kotlin {
@@ -26,6 +31,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(libs.compose.imageloader)
                 implementation(libs.ktor.core)
+                implementation(libs.klibs.mikro.core)
                 implementation(libs.kotlin.serialization.json)
                 implementation(libs.kotlin.coroutines.core)
                 implementation(project(":paging"))
@@ -51,10 +57,14 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "ru.astrainteractive.klibs.sample.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Deb
+            )
             packageName = "${requireProjectInfo.group}.sample"
             packageVersion = "1.0.0"
         }

@@ -1,4 +1,4 @@
-package ru.astrainteractive.klibs.paging.context
+package ru.astrainteractive.klibs.paging.context.model
 
 /**
  * Represents a context for a specific page in a paginated data set.
@@ -6,7 +6,7 @@ package ru.astrainteractive.klibs.paging.context
  * Implementations of this interface hold information about the current page,
  * such as its index, cursor, or other metadata needed to fetch the next or previous page.
  */
-interface PageContext {
+public interface PageContext {
 
     /**
      * Factory interface for creating new instances of [PageContext], typically
@@ -14,7 +14,8 @@ interface PageContext {
      *
      * @param T The specific type of [PageContext] this factory produces.
      */
-    interface Factory<T : PageContext> {
+    @Suppress("RolelessClassName")
+    public interface Factory<T : PageContext> {
 
         /**
          * Creates a [PageContext] instance representing the next page based on the given [pageContext].
@@ -22,7 +23,7 @@ interface PageContext {
          * @param pageContext The current page context.
          * @return A new [PageContext] representing the next page.
          */
-        fun next(pageContext: T): T
+        public fun next(pageContext: T): T
 
         /**
          * Creates a [PageContext] instance representing the previous page based on the given [pageContext].
@@ -30,6 +31,6 @@ interface PageContext {
          * @param pageContext The current page context.
          * @return A new [PageContext] representing the previous page.
          */
-        fun prev(pageContext: T): T
+        public fun prev(pageContext: T): T
     }
 }

@@ -1,15 +1,15 @@
 package ru.astrainteractive.klibs.paging.util
 
 import kotlinx.coroutines.flow.first
-import ru.astrainteractive.klibs.paging.collector.PagingCollector
-import ru.astrainteractive.klibs.paging.context.PageContext
+import ru.astrainteractive.klibs.paging.collector.api.PagingCollector
+import ru.astrainteractive.klibs.paging.context.model.PageContext
 
 /**
  * Replaces the current [PageContext] in the [PagingState] with the specified [pageContext].
  *
  * @param pageContext The new page context to set.
  */
-fun <T, K : PageContext> PagingCollector<T, K>.submitPageContext(pageContext: K) {
+public fun <T, K : PageContext> PagingCollector<T, K>.submitPageContext(pageContext: K) {
     update { pagingState ->
         pagingState.copy(pageContext = pageContext)
     }
@@ -20,7 +20,7 @@ fun <T, K : PageContext> PagingCollector<T, K>.submitPageContext(pageContext: K)
  *
  * @param pageContext A function that takes the current page context and returns an updated one.
  */
-fun <T, K : PageContext> PagingCollector<T, K>.updatePageContext(pageContext: (K) -> K) {
+public fun <T, K : PageContext> PagingCollector<T, K>.updatePageContext(pageContext: (K) -> K) {
     val nextPageContext = pageContext.invoke(state.value.pageContext)
     submitPageContext(nextPageContext)
 }
@@ -30,28 +30,28 @@ fun <T, K : PageContext> PagingCollector<T, K>.updatePageContext(pageContext: (K
  *
  * @param list The new list of items to submit.
  */
-fun <T, K : PageContext> PagingCollector<T, K>.submitList(list: List<T>) {
-    update { it.copy(items = list) }
+public fun <T, K : PageContext> PagingCollector<T, K>.submitList(list: List<T>) {
+    update { pagingState -> pagingState.copy(items = list) }
 }
 
 /**
  * Loads the next page using the current [PageContext] and the factory's `next()` method.
  */
-suspend fun <T, K : PageContext> PagingCollector<T, K>.loadNextPage() {
+public suspend fun <T, K : PageContext> PagingCollector<T, K>.loadNextPage() {
     loadPage(nextContext = { pageContextFactory -> pageContextFactory.next(state.first().pageContext) })
 }
 
 /**
  * Loads the previous page using the current [PageContext] and the factory's `prev()` method.
  */
-suspend fun <T, K : PageContext> PagingCollector<T, K>.loadPreviousPage() {
+public suspend fun <T, K : PageContext> PagingCollector<T, K>.loadPreviousPage() {
     loadPage(nextContext = { pageContextFactory -> pageContextFactory.prev(state.first().pageContext) })
 }
 
 /**
  * Cancels any ongoing work, resets the paging state to its initial value, and loads the next page.
  */
-suspend fun <T, K : PageContext> PagingCollector<T, K>.resetAndLoadNextPage() {
+public suspend fun <T, K : PageContext> PagingCollector<T, K>.resetAndLoadNextPage() {
     cancelAndJoin()
     resetToInitial()
     loadNextPage()

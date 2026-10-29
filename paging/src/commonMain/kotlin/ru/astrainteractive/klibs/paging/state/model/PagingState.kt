@@ -1,6 +1,6 @@
-package ru.astrainteractive.klibs.paging.state
+package ru.astrainteractive.klibs.paging.state.model
 
-import ru.astrainteractive.klibs.paging.context.PageContext
+import ru.astrainteractive.klibs.paging.context.model.PageContext
 
 /**
  * Represents the complete state of a paginated data flow.
@@ -12,8 +12,8 @@ import ru.astrainteractive.klibs.paging.context.PageContext
  * @property items The list of all loaded items up to this point.
  * @property pageResult The result of the most recent page loading operation.
  */
-data class PagingState<T, K : PageContext>(
-    val pageContext: K,
-    val items: List<T>,
-    val pageResult: PageResult
+public data class PagingState<T, K : PageContext>(
+    public val pageContext: K,
+    public val items: List<T>,
+    public val pageResult: PageResult
 )

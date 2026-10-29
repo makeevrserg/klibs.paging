@@ -1,11 +1,12 @@
 package ru.astrainteractive.klibs.sample.feature.rickmorty.model
 
-import ru.astrainteractive.klibs.paging.context.PageContext
+import ru.astrainteractive.klibs.paging.context.model.PageContext
 
 internal data class RickMortyPageContext(
     val page: Int,
     val filter: Filter
 ) : PageContext {
+    @Suppress("RolelessClassName")
     object Factory : PageContext.Factory<RickMortyPageContext> {
         override fun next(pageContext: RickMortyPageContext): RickMortyPageContext {
             return pageContext.copy(page = pageContext.page + 1)
