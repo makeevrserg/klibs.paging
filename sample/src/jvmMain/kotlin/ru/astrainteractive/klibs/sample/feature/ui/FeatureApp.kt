@@ -33,7 +33,7 @@ import com.seiko.imageloader.Image
 import com.seiko.imageloader.rememberImagePainter
 import kotlinx.coroutines.flow.filter
 import ru.astrainteractive.klibs.sample.feature.presentation.FeatureViewModel
-import ru.astrainteractive.klibs.sample.feature.service.model.Status
+import ru.astrainteractive.klibs.sample.feature.rickmorty.model.Status
 
 @Composable
 fun LazyListState.OnEndReached(block: suspend () -> Unit) {

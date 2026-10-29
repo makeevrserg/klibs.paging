@@ -2,15 +2,15 @@ package ru.astrainteractive.klibs.sample.di
 
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
-import ru.astrainteractive.klibs.sample.feature.data.RickMortyRepository
-import ru.astrainteractive.klibs.sample.feature.data.RickMortyRepositoryImpl
-import ru.astrainteractive.klibs.sample.feature.service.RickMortyService
-import ru.astrainteractive.klibs.sample.feature.service.RickMortyServiceImpl
+import ru.astrainteractive.klibs.sample.feature.rickmorty.api.RickMortyClient
+import ru.astrainteractive.klibs.sample.feature.rickmorty.api.RickMortyRepository
+import ru.astrainteractive.klibs.sample.feature.rickmorty.ktor.KtorRickMortyClient
+import ru.astrainteractive.klibs.sample.feature.rickmorty.ktor.KtorRickMortyRepository
 
 internal interface ServicesModule {
     val json: Json
     val httpClient: HttpClient
-    val rickMortyService: RickMortyService
+    val rickMortyClient: RickMortyClient
     val rickMortyRepository: RickMortyRepository
 
     class Default : ServicesModule {
@@ -30,15 +30,15 @@ internal interface ServicesModule {
             }
         }
 
-        override val rickMortyService: RickMortyService by lazy {
-            RickMortyServiceImpl(
+        override val rickMortyClient: RickMortyClient by lazy {
+            KtorRickMortyClient(
                 httpClient = httpClient,
                 json = json
             )
         }
 
         override val rickMortyRepository: RickMortyRepository by lazy {
-            RickMortyRepositoryImpl(rickMortyService)
+            KtorRickMortyRepository(rickMortyClient)
         }
     }
 }

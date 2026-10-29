@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import ru.astrainteractive.klibs.sample.feature.data.RickMortyRepository
-import ru.astrainteractive.klibs.sample.feature.service.model.CharacterModel
-import ru.astrainteractive.klibs.sample.feature.service.model.Filter
-import ru.astrainteractive.klibs.sample.feature.service.model.Status
+import ru.astrainteractive.klibs.sample.feature.rickmorty.api.RickMortyRepository
+import ru.astrainteractive.klibs.sample.feature.rickmorty.model.CharacterModel
+import ru.astrainteractive.klibs.sample.feature.rickmorty.model.Filter
+import ru.astrainteractive.klibs.sample.feature.rickmorty.model.Status
 import kotlin.coroutines.CoroutineContext
 
 internal class FeatureViewModel(private val rickMortyRepository: RickMortyRepository) : CoroutineScope {

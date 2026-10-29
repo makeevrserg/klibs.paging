@@ -1,11 +1,12 @@
-package ru.astrainteractive.klibs.sample.feature.data.paging
+package ru.astrainteractive.klibs.sample.feature.rickmorty.paging
 
 import ru.astrainteractive.klibs.paging.collector.DefaultPagingCollector
 import ru.astrainteractive.klibs.paging.collector.PagingCollector
 import ru.astrainteractive.klibs.paging.data.PagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PageResult
 import ru.astrainteractive.klibs.paging.state.PagingState
-import ru.astrainteractive.klibs.sample.feature.service.model.Filter
+import ru.astrainteractive.klibs.sample.feature.rickmorty.model.Filter
+import ru.astrainteractive.klibs.sample.feature.rickmorty.model.RickMortyPageContext
 
 internal class RickMortyPagerCollector<T>(
     private val initialPage: Int = 0,

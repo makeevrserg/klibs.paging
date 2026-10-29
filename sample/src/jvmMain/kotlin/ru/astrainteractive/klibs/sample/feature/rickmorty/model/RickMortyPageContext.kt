@@ -1,7 +1,6 @@
-package ru.astrainteractive.klibs.sample.feature.data.paging
+package ru.astrainteractive.klibs.sample.feature.rickmorty.model
 
 import ru.astrainteractive.klibs.paging.context.PageContext
-import ru.astrainteractive.klibs.sample.feature.service.model.Filter
 
 internal data class RickMortyPageContext(
     val page: Int,

@@ -1,4 +1,4 @@
-package ru.astrainteractive.klibs.sample.feature.service.model
+package ru.astrainteractive.klibs.sample.feature.rickmorty.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
